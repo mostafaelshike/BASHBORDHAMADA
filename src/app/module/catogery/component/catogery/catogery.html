@@ -1,0 +1,481 @@
+<div class="category-page" dir="rtl">
+
+  <header class="page-header">
+
+    <div class="title-area">
+      <div class="breadcrumb">
+        الرئيسية
+        <span>‹</span>
+        إدارة الكتالوج
+        <span>‹</span>
+        الأقسام والتصنيفات الطبية
+      </div>
+
+      <h1>إدارة الأقسام والتصنيفات الطبية</h1>
+
+      <p>
+        هيكلة وتصنيف الأجهزة والمستلزمات السريرية والتجهيزات العامة
+        وفق المعايير الصحية المعتمدة
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <button
+        class="btn add-category"
+        type="button"
+        (click)="openModal()"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8Zm1-13h-2v4H7v2h4v4h2v-4h4v-2h-4V7Z"/>
+        </svg>
+        إضافة قسم طبي جديد
+      </button>
+    </div>
+
+  </header>
+
+  <section class="statistics">
+
+    <div
+      class="stat-card"
+      *ngFor="let stat of stats"
+    >
+      <div
+        class="stat-icon"
+        [ngClass]="stat.type"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 2 2 7l10 5 10-5-10-5Zm0 7-8-4 8-4 8 4-8 4ZM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+
+      <div class="stat-info">
+        <span>{{ stat.title }}</span>
+        <strong>{{ stat.value }}</strong>
+        <small>{{ stat.description }}</small>
+        <em>{{ stat.note }}</em>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="table-container">
+
+    <div class="table-toolbar">
+
+      <div class="search-box">
+
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10 2a8 8 0 1 0 5.29 14l4.7 4.71 1.42-1.42-4.71-4.7A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/>
+        </svg>
+
+        <input
+          type="text"
+          placeholder="ابحث باسم القسم، الكود المرجعي، أو الوصف الطبي..."
+        >
+
+      </div>
+
+    </div>
+
+    <div
+      class="table-wrapper category-skeleton"
+      *ngIf="loading"
+    >
+
+      <table class="shimmer-table">
+
+        <thead>
+          <tr>
+            <th>القسم الطبي والتصنيف</th>
+            <th>الكود المرجعي</th>
+            <th>الوصف السريري</th>
+            <th>المنتجات المسجلة</th>
+            <th>الحالة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let row of shimmerRows"
+            class="shimmer-row"
+          >
+
+            <td data-label="القسم الطبي والتصنيف">
+              <div class="shimmer-category">
+                <span class="skeleton skeleton-icon"></span>
+
+                <div class="shimmer-content">
+                  <span class="skeleton skeleton-title"></span>
+                  <span class="skeleton skeleton-subtitle"></span>
+                </div>
+              </div>
+            </td>
+
+            <td data-label="الكود المرجعي">
+              <span class="skeleton skeleton-code"></span>
+            </td>
+
+            <td data-label="الوصف السريري">
+              <div class="shimmer-description">
+                <span class="skeleton skeleton-description"></span>
+                <span class="skeleton skeleton-description short"></span>
+              </div>
+            </td>
+
+            <td data-label="المنتجات المسجلة">
+              <span class="skeleton skeleton-count"></span>
+            </td>
+
+            <td data-label="الحالة">
+              <span class="skeleton skeleton-status"></span>
+            </td>
+
+            <td data-label="الإجراءات">
+              <div class="shimmer-actions">
+                <span class="skeleton skeleton-action"></span>
+                <span class="skeleton skeleton-action"></span>
+              </div>
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div
+      class="table-wrapper category-table"
+      *ngIf="!loading"
+    >
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>القسم الطبي والتصنيف</th>
+            <th>الكود المرجعي</th>
+            <th>الوصف السريري</th>
+            <th>المنتجات المسجلة</th>
+            <th>الحالة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr
+            *ngFor="let cat of paginatedCategories"
+          >
+
+            <td class="category-name" data-label="القسم الطبي والتصنيف">
+
+              <div class="category-content">
+                <div class="icon-box">
+
+                  <app-svg-icon
+                    [name]="cat.icon || 'bi-heart-pulse'"
+                  ></app-svg-icon>
+
+                </div>
+
+                <div>
+                  <strong>{{ cat.name }}</strong>
+
+                  <!-- <small>
+                    {{ cat.nameEn || 'Clinical Department' }}
+                  </small> -->
+                </div>
+              </div>
+
+            </td>
+
+            <td data-label="الكود المرجعي">
+              <span class="code-badge">
+                {{ cat.code || 'CAT-MED' }}
+              </span>
+            </td>
+
+            <td class="desc" data-label="الوصف السريري">
+              {{ cat.description || 'تصنيف طبي معتمد' }}
+            </td>
+
+            <td data-label="المنتجات المسجلة">
+              <span class="products-count">
+                {{ cat.productCount || 0 }} صنف مسجل
+              </span>
+            </td>
+
+            <td data-label="الحالة">
+
+              <span
+                class="status-badge"
+                [class.active]="cat.active !== false"
+              >
+                {{ cat.active !== false ? 'مفعل بالمتجر' : 'غير نشط' }}
+              </span>
+
+            </td>
+
+            <td class="actions" data-label="الإجراءات">
+
+              <button
+                class="action-btn edit"
+                type="button"
+                (click)="openModal(cat)"
+                title="تعديل"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m18.988 2.012 3 3L7 20H4v-3L18.988 2.012Z"/>
+                </svg>
+              </button>
+
+              <button
+                class="action-btn delete"
+                type="button"
+                (click)="requestDeleteCategory(cat)"
+                title="حذف"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12ZM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4Z"/>
+                </svg>
+              </button>
+
+            </td>
+
+          </tr>
+
+          <tr
+            *ngIf="categories.length === 0"
+            class="empty-row"
+          >
+            <td colspan="6">
+              لا توجد أقسام طبية مسجلة حاليًا
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+      <app-table-pagination
+        [totalItems]="totalCategories"
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [loading]="loading"
+        (pageChange)="onPageChange($event)">
+      </app-table-pagination>
+
+    </div>
+
+  </section>
+
+</div>
+
+<app-confirm-dialog
+  [visible]="pendingDelete !== null"
+  [message]="pendingDelete ? 'هل أنت متأكد من حذف القسم: ' + pendingDelete.name + '؟' : ''"
+  [errorMessage]="deleteErrorMessage"
+  [busy]="isDeleting"
+  (confirmed)="confirmDelete()"
+  (cancelled)="cancelDelete()"
+></app-confirm-dialog>
+
+@if (showModal) {
+
+  <div
+    class="modal-backdrop"
+    (click)="closeModal()"
+  >
+
+    <div
+      class="modal-card"
+      (click)="$event.stopPropagation()"
+      dir="rtl"
+    >
+
+      <div class="modal-header">
+
+        <div class="modal-title">
+
+          <div class="modal-icon">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8.009 8.009 0 0 1-8 8Zm1-13h-2v4H7v2h4v4h2v-4h4v-2h-4Z"/>
+            </svg>
+
+          </div>
+
+          <div>
+            <h3>
+              {{ isEditMode ? 'تعديل بيانات القسم' : 'إضافة قسم طبي جديد' }}
+            </h3>
+
+            <p>
+              {{ isEditMode ? 'تحديث بيانات القسم الطبي' : 'أدخل بيانات القسم الطبي الجديد' }}
+            </p>
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          class="modal-close"
+          (click)="closeModal()"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4l-6.3 6.31-1.41-1.42L9.17 12 2.88 5.71l1.41-1.42 6.3 6.3 6.3-6.3Z"/>
+          </svg>
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div
+          class="form-error"
+          *ngIf="errorMessage"
+        >
+          {{ errorMessage }}
+        </div>
+
+        <form
+          (ngSubmit)="saveCategory()"
+          #categoryForm="ngForm"
+        >
+
+          <div class="form-group">
+
+            <label>
+              اسم القسم بالعربية
+              <span>*</span>
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="newCategory.name"
+              name="name"
+              required
+              minlength="2"
+              placeholder="مثال: أجهزة القياس والتشخيص"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label>
+              الاسم بالإنجليزية
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="newCategory.nameEn"
+              name="nameEn"
+              placeholder="Diagnostic Devices"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label>
+              الكود المرجعي
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="newCategory.code"
+              name="code"
+              placeholder="CAT-DIAG-01"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label>
+              الوصف السريري والمحتوى
+            </label>
+
+            <textarea
+              [(ngModel)]="newCategory.description"
+              name="description"
+              rows="3"
+              placeholder="تفاصيل ومجال استخدام هذا القسم..."
+            ></textarea>
+
+          </div>
+
+          <div class="modal-toggle">
+
+            <div>
+
+              <strong>حالة القسم</strong>
+
+              <span>
+                ظهور القسم وتفعيله داخل المتجر
+              </span>
+
+            </div>
+
+            <label class="switch">
+
+              <input
+                type="checkbox"
+                [(ngModel)]="newCategory.active"
+                name="active"
+              >
+
+              <span class="slider"></span>
+
+            </label>
+
+          </div>
+
+          <div class="modal-footer">
+
+            <button
+              type="button"
+              class="btn-cancel"
+              (click)="closeModal()"
+              [disabled]="saving"
+            >
+              إلغاء
+            </button>
+
+            <button
+              type="submit"
+              class="btn-save"
+              [disabled]="saving || !newCategory.name.trim()"
+            >
+
+              <svg
+                *ngIf="!saving"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7Zm0 16H5V5h11v4H8v2h8V7h1l1 1v11ZM12 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+              </svg>
+
+              <span>
+                {{ saving ? 'جاري الحفظ...' : (isEditMode ? 'تحديث القسم' : 'إضافة القسم') }}
+              </span>
+
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

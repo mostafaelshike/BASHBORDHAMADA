@@ -1,0 +1,646 @@
+<div class="order-page" dir="rtl">
+  @if (errorMessage) {
+    <div class="error-message" role="alert">{{ errorMessage }}</div>
+  }
+
+  <header class="page-header">
+
+    <div class="title-area">
+
+      <div class="breadcrumb">
+        الرئيسية
+        <span>‹</span>
+        إدارة التوريدات
+        <span>‹</span>
+        سجل الطلبات وأوامر الشراء
+      </div>
+
+      <h1>
+        إدارة طلبات التوريد والمستلزمات الطبية
+      </h1>
+
+      <p>
+        متابعة ومطابقة طلبات الشراء، حالة التجهيز والتعقيم، وتتبع الشحنات الطبية المباشرة
+      </p>
+
+    </div>
+
+    <div class="header-actions">
+
+      <div class="total-badge">
+        {{ totalOrders }} طلب مسجل
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <section class="filters-bar">
+
+    <button
+      class="filter-tab"
+      [class.active]="statusFilter === 'all'"
+      (click)="onFilterStatus('all')">
+
+      جميع الطلبات
+
+      <span>
+        {{ totalOrders }}
+      </span>
+
+    </button>
+
+
+    <button
+      class="filter-tab"
+      [class.active]="statusFilter === 'pending'"
+      (click)="onFilterStatus('pending')">
+
+      قيد المراجعة
+
+    </button>
+
+
+    <button
+      class="filter-tab"
+      [class.active]="statusFilter === 'processing'"
+      (click)="onFilterStatus('processing')">
+
+      قيد التجهيز الطبي
+
+    </button>
+
+
+    <button
+      class="filter-tab"
+      [class.active]="statusFilter === 'shipped'"
+      (click)="onFilterStatus('shipped')">
+
+      تم الشحن
+
+    </button>
+
+
+    <button
+      class="filter-tab"
+      [class.active]="statusFilter === 'delivered'"
+      (click)="onFilterStatus('delivered')">
+
+      مكتملة ومسلمة
+
+    </button>
+
+
+    <div class="search-wrapper">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M10 2a8 8 0 1 0 5.29 14l4.7 4.71 1.42-1.42-4.71-4.7A8 8 0 0 0 10 2Zm0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/>
+      </svg>
+
+      <input
+        type="text"
+        [(ngModel)]="searchKeyword"
+        (input)="onSearch()"
+        placeholder="ابحث برقم الطلب، العميل، أو المدينة...">
+
+    </div>
+
+  </section>
+
+
+  <section class="table-container">
+
+    @if (loading) {
+
+      <div class="table-scroll skeleton-wrapper">
+
+        <table class="orders-table skeleton-table">
+
+          <thead>
+
+            <tr>
+              <th>رقم الطلب والتاريخ</th>
+              <th>الجهة / العميل المستلم</th>
+              <th>المدينة والتوصيل</th>
+              <th>المنتجات والكميات</th>
+              <th>الإجمالي</th>
+              <th>حالة الدفع</th>
+              <th>حالة الطلب</th>
+              <th>الإجراءات</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (row of skeletonRows; track row) {
+
+              <tr>
+
+                <td data-label="رقم الطلب والتاريخ">
+                  <span class="skeleton skeleton-order"></span>
+                  <span class="skeleton skeleton-small"></span>
+                </td>
+
+                <td data-label="الجهة / العميل المستلم">
+                  <span class="skeleton skeleton-name"></span>
+                  <span class="skeleton skeleton-small"></span>
+                </td>
+
+                <td data-label="المدينة والتوصيل">
+                  <span class="skeleton skeleton-city"></span>
+                  <span class="skeleton skeleton-small"></span>
+                </td>
+
+                <td data-label="المنتجات والكميات">
+                  <span class="skeleton skeleton-product"></span>
+                  <span class="skeleton skeleton-small"></span>
+                </td>
+
+                <td data-label="الإجمالي">
+                  <span class="skeleton skeleton-price"></span>
+                </td>
+
+                <td data-label="حالة الدفع">
+                  <span class="skeleton skeleton-payment"></span>
+                </td>
+
+                <td data-label="حالة الطلب">
+                  <span class="skeleton skeleton-select"></span>
+                </td>
+
+                <td data-label="الإجراءات">
+                  <span class="skeleton skeleton-button"></span>
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    } @else if (filteredOrders.length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M20 8h-3V4H7v4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2ZM9 6h6v2H9V6Zm11 12H4v-8h16v8Zm-9-6h2v4h-2v-4Z"/>
+          </svg>
+
+        </div>
+
+        <h3>
+          لا توجد طلبات
+        </h3>
+
+        <p>
+          لا توجد طلبات مطابقة للفلتر أو البحث المحدد
+        </p>
+
+      </div>
+
+    } @else {
+
+      <div class="table-scroll">
+
+        <table class="orders-table">
+
+          <thead>
+
+            <tr>
+              <th>رقم الطلب والتاريخ</th>
+              <th>الجهة / العميل المستلم</th>
+              <th>المدينة والتوصيل</th>
+              <th>المنتجات والكميات</th>
+              <th>الإجمالي</th>
+              <th>حالة الدفع</th>
+              <th>حالة الطلب</th>
+              <th>الإجراءات</th>
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (ord of paginatedOrders; track ord._id) {
+
+              <tr>
+
+                <td class="order-number-cell" data-label="رقم الطلب والتاريخ">
+
+                  <b>
+                    {{ ord.orderNumber }}
+                  </b>
+
+                  <small>
+                    {{ ord.createdAt ? (ord.createdAt | date:'mediumDate') : 'اليوم' }}
+                  </small>
+
+                </td>
+
+
+                <td class="customer-cell" data-label="الجهة / العميل المستلم">
+
+                  <strong>
+                    {{ ord.customerInfo.name }}
+                  </strong>
+
+                  <small>
+                    {{ ord.customerInfo.hospitalOrClinic || ord.customerInfo.phone }}
+                  </small>
+
+                </td>
+
+
+                <td class="location-cell" data-label="المدينة والتوصيل">
+
+                  <span>
+                    {{ ord.customerInfo.city }}
+                  </span>
+
+                  <small>
+                    {{ ord.customerInfo.address }}
+                  </small>
+
+                </td>
+
+
+                <td class="products-cell" data-label="المنتجات والكميات">
+
+                  <span>
+                    {{ ord.items.length }} صنف
+                  </span>
+
+                  <small>
+                    {{ ord.items[0]?.name | slice:0:25 }}...
+                  </small>
+
+                </td>
+
+
+                <td class="total-cell" data-label="الإجمالي">
+
+                  <b>
+                    {{ ord.totalAmount | number }}
+                  </b>
+
+                  <small>
+                    ر.س
+                  </small>
+
+                </td>
+
+
+                <td data-label="حالة الدفع">
+
+                  <span
+                    class="payment-badge"
+                    [class.paid]="ord.paymentStatus === 'paid'"
+                    [class.cash]="ord.paymentStatus !== 'paid'">
+
+                    <svg viewBox="0 0 24 24">
+
+                      <path
+                        *ngIf="ord.paymentStatus === 'paid'"
+                        d="m9 16.17-3.88-3.88-1.41 1.42L9 19 21 7l-1.41-1.41z"/>
+
+                      <path
+                        *ngIf="ord.paymentStatus !== 'paid'"
+                        d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/>
+
+                    </svg>
+
+                    {{ ord.paymentStatus === 'paid' ? 'مدفوع' : 'عند الاستلام' }}
+
+                  </span>
+
+                </td>
+
+
+                <td data-label="حالة الطلب">
+
+                  <select
+                    class="status-select"
+                    [value]="ord.orderStatus"
+                    (change)="updateStatus(ord, $any($event.target).value)">
+
+                    <option value="pending">
+                      قيد المراجعة
+                    </option>
+
+                    <option value="processing">
+                      قيد التجهيز
+                    </option>
+
+                    <option value="shipped">
+                      تم الشحن
+                    </option>
+
+                    <option value="delivered">
+                      تم التسليم
+                    </option>
+
+                    <option value="cancelled">
+                      ملغي
+                    </option>
+
+                  </select>
+
+                </td>
+
+
+                <td data-label="الإجراءات">
+
+                  <button
+                    class="details-button"
+                    (click)="openOrderDetails(ord)">
+
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 5c-5.5 0-9.5 5-9.5 7s4 7 9.5 7 9.5-5 9.5-7-4-7-9.5-7Zm0 12c-3.4 0-6.5-3-7.4-5 .9-2 4-5 7.4-5s6.5 3 7.4 5c-.9 2-4 5-7.4 5Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+                    </svg>
+
+                    التفاصيل
+
+                  </button>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <app-table-pagination
+        [totalItems]="totalOrders"
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [loading]="loading"
+        (pageChange)="onPageChange($event)">
+      </app-table-pagination>
+
+    }
+
+  </section>
+
+</div>
+
+
+@if (showDetailsModal && selectedOrder) {
+
+  <div
+    class="modal-backdrop"
+    (click)="closeOrderDetails()">
+
+    <div
+      class="modal-card"
+      (click)="$event.stopPropagation()"
+      dir="rtl">
+
+      <div class="modal-header">
+
+        <div>
+
+          <span class="modal-label">
+            سجل الطلب
+          </span>
+
+          <h3>
+            {{ selectedOrder.orderNumber }}
+          </h3>
+
+        </div>
+
+
+        <button
+          class="modal-close"
+          (click)="closeOrderDetails()">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M18.3 5.71 12 12l6.3 6.29-1.42 1.42L10.59 13.41 4.29 19.71 2.87 18.29 9.17 12 2.87 5.71 4.29 4.29l6.3 6.3 6.29-6.3z"/>
+          </svg>
+
+        </button>
+
+      </div>
+
+
+      <div class="customer-details">
+
+        <div class="details-title">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0-8a3 3 0 1 1 0 0 6 6 0 0 1 0-6ZM4 22a8 8 0 0 1 16 0h-2a6 6 0 0 0-12 0Z"/>
+          </svg>
+
+          بيانات المستلم
+
+        </div>
+
+
+        <div class="customer-grid">
+
+          <div>
+            <span>اسم المستلم</span>
+            <strong>{{ selectedOrder.customerInfo.name }}</strong>
+          </div>
+
+          <div>
+            <span>رقم الجوال</span>
+            <strong>{{ selectedOrder.customerInfo.phone }}</strong>
+          </div>
+
+          <div>
+            <span>المنشأة الطبية</span>
+            <strong>
+              {{ selectedOrder.customerInfo.hospitalOrClinic || 'حساب فردي' }}
+            </strong>
+          </div>
+
+          <div>
+            <span>المدينة</span>
+            <strong>{{ selectedOrder.customerInfo.city }}</strong>
+          </div>
+
+          <div class="full-width">
+            <span>عنوان التوصيل</span>
+            <strong>{{ selectedOrder.customerInfo.address }}</strong>
+          </div>
+
+          @if (selectedOrder.customerInfo.notes) {
+
+            <div class="full-width notes-field">
+
+              <span>
+                ملاحظات العميل
+              </span>
+
+              <strong>
+                {{ selectedOrder.customerInfo.notes }}
+              </strong>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-section">
+
+        <div class="section-heading">
+
+          <div>
+
+            <span class="modal-label">
+              الطلب
+            </span>
+
+            <h4>
+              الأصناف والمعدات
+            </h4>
+
+          </div>
+
+          <span class="items-count">
+            {{ selectedOrder.items.length }} صنف
+          </span>
+
+        </div>
+
+
+        <div class="items-list">
+
+          @for (it of selectedOrder.items; track $index) {
+
+            <div class="item-card">
+
+              <div class="item-main">
+
+                <div class="item-image">
+
+                  <img
+                    [src]="it.image"
+                    [alt]="it.name">
+
+                </div>
+
+                <div class="item-info">
+
+                  <strong>
+                    {{ it.name }}
+                  </strong>
+
+                  <small>
+                    كود: {{ it.sku }}
+                    <span>•</span>
+                    الكمية: {{ it.quantity }}
+                  </small>
+
+                </div>
+
+              </div>
+
+              <strong class="item-total">
+                {{ it.total | number }} ر.س
+              </strong>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="financial-summary">
+
+        <div class="summary-row">
+
+          <span>
+            المجموع الفرعي
+          </span>
+
+          <strong>
+            {{ selectedOrder.subtotal | number }} ر.س
+          </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>
+            رسوم الشحن والتوصيل الطبي
+          </span>
+
+          <strong>
+            {{
+              selectedOrder.shippingFee === 0
+                ? 'مجاني'
+                : (selectedOrder.shippingFee + ' ر.س')
+            }}
+          </strong>
+
+        </div>
+
+
+        <div class="summary-row">
+
+          <span>
+            ضريبة القيمة المضافة (15%)
+          </span>
+
+          <strong>
+            {{ selectedOrder.tax | number }} ر.س
+          </strong>
+
+        </div>
+
+
+        <div class="summary-total">
+
+          <span>
+            المبلغ الإجمالي
+          </span>
+
+          <strong>
+            {{ selectedOrder.totalAmount | number }} ر.س
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="close-button"
+          (click)="closeOrderDetails()">
+
+          إغلاق
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

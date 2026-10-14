@@ -1,0 +1,705 @@
+* {
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
+}
+
+.brand-page {
+  min-height: 100vh;
+  padding: 24px 28px;
+  background: #f8fafc;
+  color: #172033;
+  font-family: "Cairo", "Tahoma", Arial, sans-serif;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 25px;
+  margin-bottom: 22px;
+}
+
+.title-area {
+  text-align: right;
+}
+
+.breadcrumb {
+  color: #008c68;
+  font-size: 11px;
+  margin-bottom: 8px;
+}
+
+.breadcrumb span {
+  color: #8c97a7;
+  padding: 0 5px;
+}
+
+.title-area h1 {
+  margin: 0;
+  color: #142238;
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.title-area p {
+  margin: 7px 0 0;
+  color: #748094;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.header-actions {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.btn {
+  height: 40px;
+  border: 0;
+  border-radius: 9px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.btn svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+}
+
+.export-btn {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  color: #344054;
+}
+
+.add-brand {
+  background: #008b68;
+  color: #fff;
+}
+
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+.statistics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  min-height: 124px;
+  padding: 15px;
+  background: #fff;
+  border: 1px solid #e4e9f0;
+  border-radius: 13px;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.stat-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.stat-icon.green {
+  background: #d9faec;
+  color: #008c68;
+}
+
+.stat-icon.blue {
+  background: #e3edff;
+  color: #2872c5;
+}
+
+.stat-icon.purple {
+  background: #eee5ff;
+  color: #7b42c2;
+}
+
+.stat-icon.red {
+  background: #ffe2e2;
+  color: #dc3030;
+}
+
+.stat-info {
+  min-width: 0;
+}
+
+.stat-info span {
+  display: block;
+  color: #667386;
+  font-size: 10px;
+  margin-bottom: 7px;
+}
+
+.stat-info strong {
+  display: block;
+  color: #172033;
+  font-size: 22px;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.stat-info strong.brand-name {
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.stat-info strong.red-number {
+  color: #cf2c2c;
+}
+
+.stat-info small {
+  display: block;
+  color: #7b8697;
+  font-size: 8px;
+}
+
+.stat-info em {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 4px 8px;
+  border-radius: 15px;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.positive {
+  background: #d8faea;
+  color: #008b68;
+}
+
+.blue-badge {
+  background: #dfeaff;
+  color: #2862b0;
+}
+
+.purple-badge {
+  background: #eee3ff;
+  color: #7139b2;
+}
+
+.danger {
+  color: #d72c2c;
+  background: #ffe2e2;
+}
+
+
+/* =========================================
+   FILTERS
+========================================= */
+
+.filters {
+  padding: 13px;
+  background: #fff;
+  border: 1px solid #e3e8f0;
+  border-radius: 13px;
+  display: flex;
+  gap: 9px;
+  align-items: center;
+}
+
+.search-box {
+  height: 42px;
+  flex: 1;
+  min-width: 280px;
+  border-radius: 10px;
+  background: #edf3ff;
+  display: flex;
+  align-items: center;
+  padding: 0 13px;
+  gap: 8px;
+}
+
+.search-box svg {
+  width: 17px;
+  height: 17px;
+  fill: #718096;
+}
+
+.search-box input {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 10px;
+  color: #344054;
+}
+
+.select-filter {
+  height: 42px;
+  min-width: 170px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 10px;
+  background: #edf3ff;
+  color: #526074;
+  font-family: inherit;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.select-filter svg {
+  width: 15px;
+  height: 15px;
+  fill: #718096;
+}
+
+.reset-filter {
+  height: 42px;
+  border: 0;
+  border-radius: 10px;
+  background: #edf3ff;
+  color: #526074;
+  padding: 0 15px;
+  font-family: inherit;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+
+.reset-filter svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+
+/* =========================================
+   ACTIVE FILTERS
+========================================= */
+
+.active-filters {
+  min-height: 51px;
+  padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.active-filters strong {
+  color: #5d6879;
+  font-size: 9px;
+}
+
+.filter-chip {
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.filter-chip.green {
+  background: #d7fae9;
+  color: #008b68;
+}
+
+.filter-chip.blue {
+  background: #e3edff;
+  color: #3861a0;
+}
+
+.filter-chip.purple {
+  background: #eee4ff;
+  color: #7041ae;
+}
+
+.filter-chip.gray {
+  background: #edf1f6;
+  color: #667386;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.brands-table {
+  background: #fff;
+  border: 1px solid #e3e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.brands-table table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.brands-table thead {
+  background: #edf3ff;
+}
+
+.brands-table th {
+  padding: 15px 10px;
+  text-align: right;
+  color: #465367;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.brands-table td {
+  padding: 15px 10px;
+  border-bottom: 1px solid #edf0f4;
+  vertical-align: middle;
+  color: #344054;
+  font-size: 9px;
+}
+
+.brands-table tbody tr {
+  min-height: 130px;
+}
+
+.brands-table tbody tr:hover {
+  background: #fafcff;
+}
+
+
+/* =========================================
+   BRAND CELL
+========================================= */
+
+.brand-cell {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.brand-logo {
+  width: 43px;
+  height: 43px;
+  min-width: 43px;
+  border-radius: 10px;
+  background: #edf3ff;
+  color: #7b8da5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.brand-logo svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
+.brand-cell strong {
+  display: block;
+  color: #283548;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.brand-cell small,
+.brands-table td small {
+  display: block;
+  color: #7c8797;
+  font-size: 8px;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   PRODUCTS NUMBER
+========================================= */
+
+.products-number {
+  display: inline-flex;
+  width: 37px;
+  height: 37px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  background: #e5edff;
+  color: #374c6b;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+
+/* =========================================
+   LICENSE
+========================================= */
+
+.license-code {
+  color: #25364c;
+  font-size: 9px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.license-ok {
+  color: #008c68 !important;
+  font-weight: 700;
+}
+
+.license-warning {
+  color: #e02d2d !important;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+  display: inline-block;
+  padding: 7px 11px;
+  border-radius: 20px;
+  font-size: 8px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.status small {
+  display: block;
+  font-size: 7px;
+  margin-top: 2px;
+}
+
+.status.active {
+  background: #d8faeb;
+  color: #008c68;
+}
+
+.status.warning {
+  background: #ffe0e0;
+  color: #d52e2e;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions button {
+  width: 25px;
+  height: 25px;
+  border: 0;
+  background: transparent;
+  color: #536274;
+  cursor: pointer;
+  padding: 3px;
+}
+
+.actions svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+}
+
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.pagination {
+  min-height: 59px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pagination button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: #edf3ff;
+  color: #566377;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pagination button.active {
+  background: #008b68;
+  color: white;
+}
+
+.pagination span {
+  color: #8792a1;
+}
+
+.pagination-info {
+  margin-right: auto;
+  color: #657184;
+  font-size: 9px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.compliance {
+  min-height: 105px;
+  margin-top: 24px;
+  padding: 18px 22px;
+  border: 1px solid #dfe6f0;
+  border-radius: 14px;
+  background: #edf4ff;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.compliance-icon {
+  width: 47px;
+  height: 47px;
+  min-width: 47px;
+  border-radius: 50%;
+  background: #008b68;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.compliance-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.compliance-text {
+  flex: 1;
+}
+
+.compliance-text h2 {
+  margin: 0;
+  font-size: 16px;
+  color: #1d2d43;
+}
+
+.compliance-text h2 span {
+  font-size: 12px;
+}
+
+.compliance-text p {
+  margin: 5px 0 0;
+  color: #6f7c8e;
+  font-size: 9px;
+  line-height: 1.7;
+}
+
+.license-link {
+  border: 0;
+  background: #fff;
+  color: #008b68;
+  border-radius: 9px;
+  padding: 9px 13px;
+  font-family: inherit;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1200px) {
+
+  .statistics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+
+  .search-box {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .brand-page {
+    padding: 13px;
+  }
+
+  .statistics {
+    grid-template-columns: 1fr;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    justify-content: center;
+  }
+
+  .select-filter,
+  .reset-filter {
+    flex: 1;
+  }
+
+  .compliance {
+    flex-wrap: wrap;
+  }
+
+  .license-link {
+    width: 100%;
+  }
+
+}

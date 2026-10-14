@@ -1,0 +1,220 @@
+<div class="brand-page" dir="rtl">
+
+  <!-- ================= HEADER ================= -->
+  <header class="page-header">
+
+    <div class="title-area">
+      <div class="breadcrumb">
+        الرئيسية
+        <span>‹</span>
+        إدارة المنتجات
+        <span>‹</span>
+        إدارة العلامات التجارية والشركات
+      </div>
+
+      <h1>إدارة العلامات التجارية والشركات المصنعة</h1>
+
+      <p>
+        إدارة ومتابعة الشركات المصنعة والعلامات التجارية المعتمدة
+        للأجهزة والمستلزمات الطبية والتوريدات
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <button class="btn add-brand" (click)="openModal()">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2a10 10 0 1 0 10 10A10.01 10.01 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8Zm1-13h-2v4H7v2h4v4h2v-4h4v-2h-4V7Z"/>
+        </svg>
+        إضافة علامة تجارية جديدة
+      </button>
+    </div>
+
+  </header>
+
+
+  <!-- ================= STATISTICS ================= -->
+  <section class="statistics">
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8Zm4-9h-3V7h-2v4H8v2h3v4h2v-4h3v-2Z"/>
+        </svg>
+      </div>
+
+      <div class="stat-info">
+        <span>إجمالي الشركات المعتمدة</span>
+        <strong>{{ totalBrandsCount }}</strong>
+        <small>شركة مصنعة</small>
+        <em class="positive">وكلاء وشركات عالمية</em>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <svg viewBox="0 0 24 24">
+          <path d="M20 6h-3V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Zm-11-2h6v2H9V4Zm11 15H4V8h16v11Z"/>
+        </svg>
+      </div>
+
+      <div class="stat-info">
+        <span>المنتجات المرتبطة</span>
+        <strong>{{ totalProductsCount }}</strong>
+        <small>منتج مدرج</small>
+        <em>متوفرة بالكتالوج</em>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= TABLE ================= -->
+  <section class="table-container">
+
+    @if (loading) {
+      <div style="text-align: center; padding: 40px; color: #0284c7;">
+        جاري تحميل العلامات التجارية...
+      </div>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>الشركة والعلامة التجارية</th>
+            <th>بلد المنشأ والتصنيع</th>
+            <th>الموقع الإلكتروني</th>
+            <th>المنتجات المسجلة</th>
+            <th>الحالة</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (b of paginatedBrands; track b._id) {
+            <tr>
+              <td class="brand-name">
+                <div class="logo-box" style="width: 40px; height: 40px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: center;">
+                  @if (b.logo) {
+                    <img [src]="b.logo" [alt]="b.name" style="width: 100%; height: 100%; object-fit: cover;">
+                  } @else {
+                    🏢
+                  }
+                </div>
+                <div>
+                  <strong>{{ b.name }}</strong>
+                  <small>{{ b.nameAr || b.code }}</small>
+                </div>
+              </td>
+
+              <td>
+                <span class="country-badge">{{ b.country || 'ألمانيا' }}</span>
+              </td>
+
+              <td>
+                @if (b.website) {
+                  <a [href]="b.website" target="_blank" style="color: #0284c7; text-decoration: none;">زيارة الموقع ↗</a>
+                } @else {
+                  <span style="color: #94a3b8;">—</span>
+                }
+              </td>
+
+              <td>
+                <span class="products-count">{{ b.productCount || 0 }} صنف</span>
+              </td>
+
+              <td>
+                <span class="status-badge" [class.active]="b.active !== false">
+                  {{ b.active !== false ? 'معتمد ونشط' : 'غير نشط' }}
+                </span>
+              </td>
+
+              <td class="actions">
+                <button class="action-btn edit" (click)="openModal(b)" title="تعديل">
+                  <svg viewBox="0 0 24 24"><path d="m18.988 2.012 3 3L7 20H4v-3L18.988 2.012Z"/></svg>
+                </button>
+
+                <button class="action-btn delete" (click)="requestDeleteBrand(b)" title="حذف">
+                  <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12ZM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4Z"/></svg>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <app-table-pagination
+        [totalItems]="totalBrandsCount"
+        [currentPage]="currentPage"
+        [pageSize]="pageSize"
+        [loading]="loading"
+        (pageChange)="onPageChange($event)">
+      </app-table-pagination>
+    }
+
+  </section>
+
+</div>
+
+<app-confirm-dialog
+  [visible]="pendingDelete !== null"
+  [message]="pendingDelete ? 'هل أنت متأكد من حذف العلامة التجارية: ' + pendingDelete.name + '؟' : ''"
+  [errorMessage]="deleteErrorMessage"
+  [busy]="isDeleting"
+  (confirmed)="confirmDelete()"
+  (cancelled)="cancelDelete()">
+</app-confirm-dialog>
+
+<!-- ================= MODAL ================= -->
+@if (showModal) {
+  <div class="modal-backdrop" (click)="closeModal()" style="position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+
+    <div class="modal-card" (click)="$event.stopPropagation()" dir="rtl" style="background: #fff; width: 90%; max-width: 500px; border-radius: 16px; padding: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <h3 style="margin: 0; font-size: 18px; font-weight: 700; color: #0f172a;">
+          {{ isEditMode ? 'تعديل بيانات الشركة' : 'إضافة علامة تجارية جديدة' }}
+        </h3>
+        <button (click)="closeModal()" style="background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b;">✕</button>
+      </div>
+
+      @if (errorMessage) {
+        <div style="background: #fee2e2; color: #b91c1c; padding: 8px 12px; border-radius: 6px; margin-bottom: 14px; font-size: 13px;">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <form [formGroup]="brandForm" (ngSubmit)="saveBrand()" style="display: flex; flex-direction: column; gap: 14px;">
+
+        <div>
+          <label style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 4px; color: #334155;">اسم الشركة / العلامة (الإنجليزية) *</label>
+          <input type="text" formControlName="name" placeholder="Omron, Beurer, Littmann..." style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
+          <small class="validation-error" *ngIf="brandForm.controls.name.touched && brandForm.controls.name.hasError('required')">اسم العلامة التجارية مطلوب.</small>
+          <small class="validation-error" *ngIf="brandForm.controls.name.touched && brandForm.controls.name.hasError('minlength')">أدخل حرفين على الأقل.</small>
+        </div>
+
+        <div>
+          <label style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 4px; color: #334155;">الاسم بالعربية</label>
+          <input type="text" formControlName="nameAr" placeholder="أومرون للرعاية الطبية" style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 4px; color: #334155;">بلد المنشأ</label>
+          <input type="text" formControlName="country" placeholder="ألمانيا، اليابان، أمريكا..." style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
+        </div>
+
+        <div>
+          <label style="display: block; font-weight: 600; font-size: 13px; margin-bottom: 4px; color: #334155;">رابط الموقع الرسمي</label>
+          <input type="url" formControlName="website" placeholder="https://..." style="width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px;">
+          <small class="validation-error" *ngIf="brandForm.controls.website.touched && brandForm.controls.website.invalid">أدخل رابطًا يبدأ بـ http:// أو https://.</small>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+          <button type="button" (click)="closeModal()" style="padding: 8px 16px; border: 1px solid #cbd5e1; background: #f8fafc; border-radius: 6px; cursor: pointer;">إلغاء</button>
+          <button type="submit" [disabled]="saving" style="padding: 8px 20px; background: #0284c7; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">
+            {{ saving ? 'جاري الحفظ...' : (isEditMode ? 'تحديث العلامة' : 'إضافة العلامة') }}
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+}

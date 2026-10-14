@@ -1,0 +1,1106 @@
+/* =========================================================
+   SIDEBAR — CLEAN / STABLE / RTL / SMOOTH
+========================================================= */
+
+:host {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  display: block;
+
+  width: 270px;
+  height: 100vh;
+
+  z-index: 1000;
+
+  font-family: 'Cairo', sans-serif;
+
+  transform: translate3d(0, 0, 0);
+
+  /* Smooth Sidebar Animation */
+  transition:
+    width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  will-change: width;
+}
+
+
+/* =========================================================
+   HOST COLLAPSED
+========================================================= */
+
+:host.collapsed {
+  width: 82px;
+}
+
+
+/* =========================================================
+   MAIN SIDEBAR
+========================================================= */
+
+.sidebar-container {
+  position: relative;
+
+  width: 270px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  padding: 20px 14px 18px;
+
+  background: #ffffff;
+
+  border-left: 1px solid #e8f0ec;
+
+  box-shadow: -5px 0 25px rgba(15, 118, 90, 0.05);
+
+  overflow: hidden;
+
+  /* Smooth Animation */
+  transition:
+    width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  transform: translate3d(0, 0, 0);
+
+  will-change: width, padding;
+}
+
+
+/* =========================================================
+   COLLAPSED SIDEBAR
+========================================================= */
+
+.sidebar-container.collapsed {
+  width: 82px;
+
+  padding: 20px 10px 18px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.sidebar-header {
+  width: 100%;
+  height: 64px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  box-sizing: border-box;
+
+  padding: 0 4px 18px;
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid #edf2f0;
+
+  transition:
+    padding 0.35s ease,
+    margin 0.35s ease;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo-wrapper {
+  width: auto;
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+
+  transition:
+    gap 0.3s ease,
+    width 0.3s ease;
+}
+
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 11px;
+
+  transition:
+    transform 0.3s ease;
+}
+
+
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   LOGO CONTENT
+========================================================= */
+
+.logo-content {
+  width: 145px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  opacity: 1;
+
+  transform: translateX(0);
+
+  transition:
+    width 0.3s ease,
+    opacity 0.2s ease,
+    transform 0.3s ease;
+}
+
+
+.logo-text {
+  margin: 0;
+
+  color: #173b32;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  line-height: 1.4;
+}
+
+
+.logo-subtitle {
+  color: #91a39e;
+
+  font-size: 10px;
+}
+
+
+/* =========================================================
+   COLLAPSED LOGO
+========================================================= */
+
+.sidebar-container.collapsed .logo-wrapper {
+  width: 42px;
+
+  justify-content: center;
+
+  margin: 0;
+
+  gap: 0;
+}
+
+
+.sidebar-container.collapsed .logo-content {
+  width: 0;
+
+  opacity: 0;
+
+  transform: translateX(8px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   COLLAPSE BUTTON
+========================================================= */
+
+.collapse-btn {
+  width: 30px;
+  height: 30px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid #e5efea;
+  border-radius: 8px;
+
+  background: #f8fbf9;
+
+  color: #7c958b;
+
+  cursor: pointer;
+
+  opacity: 1;
+
+  transform: scale(1);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.25s ease,
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+
+.collapse-btn:hover {
+  background: #eef8f4;
+
+  color: #008b68;
+}
+
+
+/* =========================================================
+   COLLAPSED BUTTON
+========================================================= */
+
+.sidebar-container.collapsed .collapse-btn {
+  opacity: 0;
+
+  transform: scale(0.7);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   NAV
+========================================================= */
+
+.sidebar-nav {
+  flex: 1;
+
+  min-height: 0;
+
+  width: 100%;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  box-sizing: border-box;
+}
+
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: #dcebe5;
+
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   SECTION TITLE
+========================================================= */
+
+.nav-section-title {
+  height: 25px;
+
+  padding: 0 12px;
+
+  margin-bottom: 10px;
+
+  color: #a1b0aa;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  opacity: 1;
+
+  transition:
+    opacity 0.2s ease,
+    height 0.3s ease,
+    margin 0.3s ease;
+}
+
+
+/* =========================================================
+   COLLAPSED SECTION TITLE
+========================================================= */
+
+.sidebar-container.collapsed .nav-section-title {
+  height: 0;
+
+  margin-bottom: 0;
+
+  padding: 0;
+
+  opacity: 0;
+}
+
+
+/* =========================================================
+   LIST
+========================================================= */
+
+.nav-list {
+  width: 100%;
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+}
+
+
+.nav-item {
+  width: 100%;
+
+  position: relative;
+}
+
+
+/* =========================================================
+   NAV LINK
+========================================================= */
+
+.nav-link {
+  position: relative;
+
+  width: 100%;
+  height: 49px;
+
+  display: flex;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  padding: 0 13px;
+
+  gap: 13px;
+
+  border: 0;
+  border-radius: 11px;
+
+  background: transparent;
+
+  color: #657b74;
+
+  font-family: 'Cairo', sans-serif;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    padding 0.3s ease,
+    gap 0.3s ease;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.nav-link:hover {
+  background: #f2faf6;
+
+  color: #008b68;
+}
+
+
+/* =========================================================
+   ACTIVE
+========================================================= */
+
+.nav-link.active {
+  background: #e8f7f1;
+
+  color: #008b68;
+}
+
+
+.nav-link.active::before {
+  content: '';
+
+  position: absolute;
+
+  top: 9px;
+  bottom: 9px;
+
+  right: 0;
+
+  width: 4px;
+
+  background: #008b68;
+
+  border-radius: 5px 0 0 5px;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.icon-wrapper {
+  width: 27px;
+  height: 27px;
+
+  flex: 0 0 27px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    transform 0.3s ease;
+}
+
+
+.nav-icon {
+  font-size: 20px;
+
+  color: #83968f;
+
+  transition:
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+
+.nav-link:hover .nav-icon {
+  color: #008b68;
+}
+
+
+.nav-link.active .nav-icon {
+  color: #008b68;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.nav-label {
+  display: block;
+
+  max-width: 150px;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+  opacity: 1;
+
+  transform: translateX(0);
+
+  transition:
+    max-width 0.3s ease,
+    opacity 0.2s ease,
+    transform 0.3s ease;
+}
+
+
+/* =========================================================
+   DROPDOWN ARROW
+========================================================= */
+
+.arrow-icon {
+  margin-right: auto;
+
+  flex-shrink: 0;
+
+  color: #9db0a8;
+
+  font-size: 11px;
+
+  opacity: 1;
+
+  transform: rotate(0deg);
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease;
+}
+
+
+.arrow-icon.rotated {
+  transform: rotate(180deg);
+}
+
+
+/* =========================================================
+   SUBMENU
+========================================================= */
+
+.submenu-list {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+  box-sizing: border-box;
+
+  padding: 6px 20px 4px 0;
+
+  margin: 0;
+
+  list-style: none;
+
+  animation: submenuOpen 0.25s ease;
+}
+
+
+.submenu-link {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 8px 12px;
+
+  border-radius: 8px;
+
+  color: #80948c;
+
+  font-size: 13px;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease;
+}
+
+
+.submenu-link:hover,
+.submenu-link.sub-active {
+  background: #f0faf5;
+
+  color: #008b68;
+}
+
+
+.submenu-dot {
+  width: 5px;
+  height: 5px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #c4d6ce;
+}
+
+
+/* =========================================================
+   COLLAPSED NAV
+========================================================= */
+
+.sidebar-container.collapsed .submenu-list {
+  display: none !important;
+}
+
+
+.sidebar-container.collapsed .nav-link {
+  width: 100%;
+
+  justify-content: flex-start;
+
+  padding: 0 14px;
+
+  gap: 0;
+}
+
+
+.sidebar-container.collapsed .icon-wrapper {
+  margin: 0;
+}
+
+
+/* =========================================================
+   COLLAPSED LABEL
+========================================================= */
+
+.sidebar-container.collapsed .nav-label {
+  max-width: 0;
+
+  opacity: 0;
+
+  transform: translateX(8px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   COLLAPSED ARROW
+========================================================= */
+
+.sidebar-container.collapsed .arrow-icon {
+  opacity: 0;
+
+  transform: scale(0.7);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   COLLAPSED ACTIVE
+========================================================= */
+
+.sidebar-container.collapsed .nav-link.active::before {
+  right: -10px;
+
+  top: 9px;
+  bottom: 9px;
+}
+
+
+/* =========================================================
+   TOOLTIP
+========================================================= */
+
+.sidebar-container.collapsed .nav-link:hover::after,
+.sidebar-container.collapsed .logout-btn:hover::after {
+  content: attr(data-title);
+
+  position: absolute;
+
+  right: calc(100% + 10px);
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  padding: 7px 11px;
+
+  background: #173b32;
+
+  color: #ffffff;
+
+  border-radius: 7px;
+
+  font-family: 'Cairo', sans-serif;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  white-space: nowrap;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.12);
+
+  animation: tooltipFade 0.15s ease;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.sidebar-footer {
+  width: 100%;
+
+  flex-shrink: 0;
+
+  padding-top: 15px;
+
+  margin-top: 15px;
+
+  border-top: 1px solid #edf2f0;
+
+  transition:
+    padding 0.3s ease,
+    margin 0.3s ease;
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+.logout-btn {
+  position: relative;
+
+  width: 100%;
+  height: 49px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 0 13px;
+
+  box-sizing: border-box;
+
+  border: 0;
+  border-radius: 11px;
+
+  background: transparent;
+
+  color: #ef6262;
+
+  font-family: 'Cairo', sans-serif;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    padding 0.3s ease,
+    gap 0.3s ease;
+}
+
+
+.logout-btn:hover {
+  background: #fff2f2;
+
+  color: #dc2626;
+}
+
+
+.logout-btn .nav-icon {
+  color: #ef6262;
+
+  transition:
+    color 0.18s ease;
+}
+
+
+/* =========================================================
+   COLLAPSED LOGOUT
+========================================================= */
+
+.sidebar-container.collapsed .logout-btn {
+  justify-content: flex-start;
+
+  padding: 0 14px;
+
+  gap: 0;
+}
+
+
+.sidebar-container.collapsed .logout-btn .nav-label {
+  max-width: 0;
+
+  opacity: 0;
+
+  transform: translateX(8px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   LOGOUT DIALOG
+========================================================= */
+
+.confirm-overlay {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+  left: auto;
+  bottom: auto;
+
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
+  background: rgba(15, 35, 30, 0.45);
+
+  backdrop-filter: blur(5px);
+
+  z-index: 99999;
+}
+
+
+.custom-confirm-dialog {
+  width: 100%;
+  max-width: 390px;
+
+  padding: 30px 26px 24px;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.16);
+
+  animation: dialogZoomIn 0.2s ease-out;
+}
+
+
+.confirm-icon {
+  width: 62px;
+  height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 16px;
+
+  border-radius: 50%;
+
+  background: #e4f8ef;
+
+  color: #008b68;
+
+  font-size: 27px;
+}
+
+
+.confirm-dialog-header {
+  margin-bottom: 8px;
+
+  color: #18372e;
+
+  font-size: 19px;
+  font-weight: 800;
+}
+
+
+.confirm-dialog-body {
+  padding: 0 5px 22px;
+
+  color: #82938c;
+
+  font-size: 13px;
+
+  line-height: 2;
+}
+
+
+.confirm-dialog-footer {
+  display: flex;
+
+  gap: 10px;
+}
+
+
+.confirm-dialog-footer button {
+  flex: 1;
+
+  height: 45px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  font-family: 'Cairo', sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+.confirm-btn {
+  background: #008b68;
+
+  color: #ffffff;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.confirm-btn:hover {
+  background: #006f54;
+
+  transform: translateY(-1px);
+}
+
+
+.cancel-btn {
+  background: #f2f6f4;
+
+  color: #667c73;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+
+.cancel-btn:hover {
+  background: #e5eeea;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes dialogZoomIn {
+  from {
+    opacity: 0;
+
+    transform: scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+
+@keyframes submenuOpen {
+  from {
+    opacity: 0;
+
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes tooltipFade {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-50%)
+      translateX(5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(-50%)
+      translateX(0);
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  :host,
+  :host.collapsed {
+    width: 270px;
+    transform: translate3d(100%, 0, 0);
+    pointer-events: none;
+    transition:
+      transform 0.28s ease,
+      width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  :host.mobile-open {
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+  }
+
+  .sidebar-container,
+  .sidebar-container.collapsed {
+    width: 270px;
+    height: 100dvh;
+    padding: 20px 14px 18px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+   لمنع الحركة لو المستخدم مفعل تقليل الحركات
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  :host,
+  .sidebar-container,
+  .nav-link,
+  .nav-label,
+  .logo-content,
+  .collapse-btn,
+  .arrow-icon,
+  .logout-btn {
+    transition: none !important;
+    animation: none !important;
+  }
+}

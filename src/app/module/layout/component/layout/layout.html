@@ -1,0 +1,19 @@
+<div class="main-wrapper">
+  <app-navside (onToggleSideNav)="onToggleSideNav($any($event))"></app-navside>
+  <button
+    *ngIf="isMobile && isSideNavOpen"
+    type="button"
+    class="mobile-nav-backdrop"
+    aria-label="إغلاق القائمة الجانبية"
+    (click)="closeMobileSideNav()">
+  </button>
+
+  <main class="content-area" 
+        [ngClass]="{
+          'content-expanded': !isSideNavOpen, 
+          'content-collapsed': isSideNavOpen
+        }">
+    <app-header (menuToggle)="toggleSideNavFromHeader()"></app-header>
+    <router-outlet></router-outlet>
+  </main>
+</div>

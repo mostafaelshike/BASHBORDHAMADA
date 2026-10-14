@@ -1,0 +1,75 @@
+<header class="main-header" dir="rtl">
+
+  <button
+    type="button"
+    class="menu-toggle"
+    aria-label="فتح القائمة الجانبية"
+    title="القائمة"
+    (click)="menuToggle.emit()">
+    <app-svg-icon name="list"></app-svg-icon>
+  </button>
+
+  <div class="header-brand">
+    <div class="brand-mark">
+      <app-svg-icon name="bag-heart"></app-svg-icon>
+    </div>
+
+    <div class="brand-info">
+      <div class="brand-name">سوق طبي</div>
+      <div class="brand-subtitle">منصة المستلزمات الطبية</div>
+    </div>
+  </div>
+
+  <div class="header-divider"></div>
+
+  <div class="search-container">
+    <app-svg-icon name="search" class="search-icon"></app-svg-icon>
+
+    <input
+      type="text"
+      placeholder="ابحث عن طلب، مستلزم طبي، فاتورة أو عميل..."
+    />
+
+    <span class="search-shortcut">⌘ K</span>
+  </div>
+
+  <div class="header-center-status">
+    <span class="status-dot"></span>
+
+    <div>
+      <strong>المتجر نشط</strong>
+      <small>99.8% جاهزية</small>
+    </div>
+  </div>
+
+  <div class="header-actions">
+
+    <button class="header-icon-btn" title="التنبيهات">
+      <app-svg-icon name="bell"></app-svg-icon>
+      <span class="notification-count">4</span>
+    </button>
+
+    <button class="header-icon-btn" title="التنبيهات المهمة">
+      <app-svg-icon name="exclamation-circle"></app-svg-icon>
+    </button>
+
+  </div>
+
+  <div class="header-divider"></div>
+
+  <button class="profile-box">
+
+    <div class="profile-avatar">
+      <span>د</span>
+    </div>
+
+    <div class="profile-info">
+      <strong>حموكشه</strong>
+      <span>المدير العام</span>
+    </div>
+
+    <app-svg-icon name="chevron-down" class="profile-arrow"></app-svg-icon>
+
+  </button>
+
+</header>

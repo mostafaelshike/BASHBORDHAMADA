@@ -1,0 +1,854 @@
+<div class="page" dir="rtl">
+
+  <header class="top-header">
+    <div class="header-title">
+      <div class="breadcrumb">
+        الرئيسية
+        <span>‹</span>
+        إدارة المنتجات والأجهزة الطبية
+      </div>
+
+      <h1>إدارة المنتجات والأجهزة الطبية</h1>
+
+      <p>
+        فهرس المستلزمات الطبية وأجهزة التشخيص وبطاقات السيري المعتمد وفق هيئة الغذاء والدواء
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <button
+        class="btn btn-success"
+        type="button"
+        (click)="openNewProduct()">
+
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1a6 6 0 1 1 0 12A6 6 0 0 1 8 2Zm-.5 2a.5.5 0 0 1 1 0v3.5H12a.5.5 0 0 1 0 1H8a.5.5 0 0 1-.5-.5V4Z"/>
+        </svg>
+
+        إضافة جهاز / منتج طبي جديد
+      </button>
+
+      <div class="total-badge">
+        <span></span>
+        {{ totalProductsCount }} صنف مسجل
+      </div>
+    </div>
+  </header>
+
+  <section class="stats">
+
+    <div class="stat-card">
+      <div class="stat-icon blue">
+        <svg viewBox="0 0 16 16">
+          <path d="M4.5 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5Zm3 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5Zm3 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5Z"/>
+        </svg>
+      </div>
+
+      <div class="stat-content">
+        <span>إجمالي الأصناف المسجلة</span>
+        <strong>{{ totalProductsCount }}</strong>
+        <small>منتج طبي مسجل</small>
+        <em>قاعدة بيانات MongoDB</em>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon green">
+        <svg viewBox="0 0 16 16">
+          <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 2.354 7.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7Z"/>
+        </svg>
+      </div>
+
+      <div class="stat-content">
+        <span>أصناف نشطة ومتاحة</span>
+        <strong>{{ activeProductsCount }}</strong>
+        <small>منتج متاح للبيع</small>
+        <em class="success-text">مطابقة ومفعلة للطلب</em>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon red">
+        <svg viewBox="0 0 16 16">
+          <path d="M7.938 2.016a.5.5 0 0 1 .124 0c.15.016.287.1.374.23l5.5 8.5A.5.5 0 0 1 13.5 11.5h-11a.5.5 0 0 1-.436-.754l5.5-8.5a.5.5 0 0 1 .374-.23ZM8 3.18 3.41 10.5h9.18L8 3.18ZM8 5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 5Zm0 4a.6.6 0 1 0 0 1.2A.6.6 0 0 0 8 9Z"/>
+        </svg>
+      </div>
+
+      <div class="stat-content">
+        <span>مخزون حرج وقارب على النفاد</span>
+        <strong>{{ lowStockCount }}</strong>
+        <small>منتج يحتاج توريد</small>
+        <em class="danger-text">أقل من الحد الأدنى</em>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon gray">
+        <svg viewBox="0 0 16 16">
+          <path d="M5 1a2 2 0 0 0-2 2v1H2.5A1.5 1.5 0 0 0 1 5.5v7A1.5 1.5 0 0 0 2.5 14h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 4H13V3a2 2 0 0 0-2-2H5Zm0 1h6a1 1 0 0 1 1 1v1H4V3a1 1 0 0 1 1-1Zm-2.5 3h11a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5Z"/>
+        </svg>
+      </div>
+
+      <div class="stat-content">
+        <span>غير نشط أو متوقف</span>
+        <strong>{{ inactiveCount }}</strong>
+        <small>منتج متوقف مؤقتاً</small>
+        <em>قيد المراجعة الفنية</em>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="filters">
+
+    <div class="filter-header">
+      <div class="filter-title">
+        <div class="filter-icon">
+          <svg viewBox="0 0 16 16">
+            <path d="M6.5 1a.5.5 0 0 1 .5.5V4h6.5a.5.5 0 0 1 0 1H7v2.5a.5.5 0 0 1-1 0V5H2.5a.5.5 0 0 1 0-1H6V1.5a.5.5 0 0 1 .5-.5ZM9.5 8a.5.5 0 0 1 .5.5V11h3a.5.5 0 0 1 0 1h-3v2.5a.5.5 0 0 1-1 0V12h-3a.5.5 0 0 1 0-1h3V8.5a.5.5 0 0 1 .5-.5Z"/>
+          </svg>
+        </div>
+
+        <div>
+          <strong>تصفية المنتجات</strong>
+          <small>ابحث وحدد القسم للوصول للمنتج بسرعة</small>
+        </div>
+      </div>
+
+      <button
+        class="clear-filters"
+        type="button"
+        (click)="clearFilters()">
+
+        <svg viewBox="0 0 16 16">
+          <path d="M3.5 3a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v1h1a.5.5 0 0 1 0 1h-.5v8A1.5 1.5 0 0 1 11.5 14h-7A1.5 1.5 0 0 1 3 12.5V5h-.5a.5.5 0 0 1 0-1h1V3Zm.5 2v7.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V5h-8Zm2 2a.5.5 0 0 1 1 0v4a.5.5 0 0 1-1 0V7Zm3 0a.5.5 0 0 1 1 0v4a.5.5 0 0 1-1 0V7Z"/>
+        </svg>
+
+        مسح الفلاتر
+      </button>
+    </div>
+
+    <div class="filter-content">
+
+      <div class="search-box">
+        <svg viewBox="0 0 16 16">
+          <path d="M11 6.5a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm-1.05 3.16 3.19 3.19-.7.7-3.19-3.19.7-.7Z"/>
+        </svg>
+
+        <input
+          type="search"
+          [(ngModel)]="searchKeyword"
+          (input)="onSearchChange()"
+          placeholder="ابحث باسم الجهاز، كود SKU، العلامة التجارية..." />
+      </div>
+
+      <div class="category-filter" style="display: flex;">
+        <label for="product-category-filter" style="font-size: 15px;padding: 5px; color: #333;">القسم:</label>
+        <div class="category-select">
+          <select
+            id="product-category-filter"
+            [ngModel]="selectedCategory"
+            (ngModelChange)="onCategorySelect($event)">
+            <option value="all">جميع الأقسام</option>
+            @for (cat of categories; track cat._id) {
+              <option [value]="cat._id">{{ cat.name }}</option>
+            }
+          </select>
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="m3 5.5 5 5 5-5" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="filter-result">
+      <span>
+        عرض
+        <strong>{{ getStartIndex() }} - {{ getEndIndex() }}</strong>
+        من
+        <strong>{{ totalMatchingProducts }}</strong>
+        منتج
+      </span>
+
+      @if (searchKeyword || selectedCategory !== 'all') {
+        <span class="active-filter">
+          يوجد فلتر نشط
+        </span>
+      }
+    </div>
+
+  </section>
+
+  <section class="table-wrapper">
+
+    @if (loading) {
+
+      <div class="table-skeleton">
+
+        <div class="skeleton-header">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        @for (item of [1,2,3,4,5,6,7,8,9,10]; track item) {
+          <div class="skeleton-row">
+            <div class="skeleton-product" data-label="المنتج الطبي">
+              <span class="skeleton-image"></span>
+              <div data-label="كود SKU والاعتماد">
+                <span class="skeleton-line large"></span>
+                <span class="skeleton-line small"></span>
+              </div>
+            </div>
+
+            <div>
+              <span class="skeleton-line medium"></span>
+              <span class="skeleton-line small"></span>
+            </div>
+
+            <span class="skeleton-pill" data-label="القسم السريري"></span>
+
+            <span class="skeleton-line medium" data-label="العلامة التجارية"></span>
+
+            <div data-label="السعر">
+              <span class="skeleton-line medium"></span>
+              <span class="skeleton-line small"></span>
+            </div>
+
+            <div class="skeleton-actions" data-label="الإجراءات">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        }
+
+      </div>
+
+    } @else if (errorMessage) {
+
+      <div class="empty-state error-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 16 16">
+            <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1a6 6 0 1 1 0 12A6 6 0 0 1 8 2Zm-.5 3a.5.5 0 0 1 1 0v3a.5.5 0 0 1-1 0V5Zm0 5a.6.6 0 1 1 1.2 0A.6.6 0 0 1 7.5 10Z"/>
+          </svg>
+        </div>
+
+        <h3>تعذر تحميل المنتجات</h3>
+        <p>{{ errorMessage }}</p>
+
+        <button class="retry-btn" type="button" (click)="loadData()">
+          إعادة المحاولة
+        </button>
+      </div>
+
+    } @else if (filteredProducts.length === 0) {
+
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 16 16">
+            <path d="M6.5 2a4.5 4.5 0 1 0 2.827 8L13 13.672l.672-.672-3.673-3.673A4.5 4.5 0 0 0 6.5 2Zm0 1a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Z"/>
+          </svg>
+        </div>
+
+        <h3>لا توجد منتجات مطابقة</h3>
+        <p>جرب تغيير كلمة البحث أو إزالة بعض الفلاتر.</p>
+
+        <button class="retry-btn" type="button" (click)="clearFilters()">
+          عرض جميع المنتجات
+        </button>
+      </div>
+
+    } @else {
+
+      <div class="table-scroll">
+
+        <table>
+          <thead>
+            <tr>
+              <th>الجهاز / المنتج الطبي</th>
+              <th>كود SKU والاعتماد</th>
+              <th>القسم السريري</th>
+              <th>العلامة التجارية</th>
+              <th>السعر</th>
+             
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            @for (prod of paginatedProducts; track prod._id) {
+
+              <tr [class.warning-row]="(prod.stock || 0) <= (prod.minStockAlert || 5)">
+
+                <td data-label="المنتج الطبي">
+                  <div class="product">
+                    <div class="product-img">
+                      @if (prod.image) {
+                        <img [src]="prod.image" [alt]="prod.name">
+                      } @else {
+                        <svg viewBox="0 0 16 16">
+                          <path d="M14 3.5A1.5 1.5 0 0 0 12.5 2h-9A1.5 1.5 0 0 0 2 3.5v9A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-9ZM3.5 3h9a.5.5 0 0 1 .5.5v5.793l-2.146-2.147a.5.5 0 0 0-.708 0L8 9.293 6.854 8.146a.5.5 0 0 0-.708 0L3 11.293V3.5a.5.5 0 0 1 .5-.5Z"/>
+                        </svg>
+                      }
+                    </div>
+
+                    <div class="product-info">
+                      <strong [title]="prod.name">{{ prod.name }}</strong>
+                      <small>
+                        {{ prod.shortDescription || prod.originCountry || 'منتج طبي معتمد' }}
+                      </small>
+                    </div>
+                  </div>
+                </td>
+
+                <td data-label="كود SKU والاعتماد">
+                  <b>{{ prod.sku }}</b>
+                  <small>{{ prod.medicalCode || 'SFDA-APPROVED' }}</small>
+                </td>
+
+                <td data-label="القسم السريري">
+                  <span class="tag">
+                    {{ prod.categoryName || 'قسم طبي' }}
+                  </span>
+                </td>
+
+                <td data-label="العلامة التجارية">
+                  <span class="brand-name">
+                    {{ prod.brandName || 'شركة طبية' }}
+                  </span>
+                </td>
+
+                <td data-label="السعر">
+                  <div class="price-cell">
+                    <b>{{ prod.price | number }}</b>
+                    <small>ر.س</small>
+
+                    @if (prod.oldPrice && prod.oldPrice > prod.price) {
+                      <del>{{ prod.oldPrice | number }} ر.س</del>
+                    }
+                  </div>
+                </td>
+
+               
+
+                <td data-label="الإجراءات">
+                  <div class="row-actions">
+
+                    <button
+                      class="action-btn edit"
+                      type="button"
+                      title="تعديل"
+                      (click)="openEditProduct(prod)">
+
+                      <svg viewBox="0 0 16 16">
+                        <path d="M12.854 1.146a.5.5 0 0 1 .707 0l1.293 1.293a.5.5 0 0 1 0 .707l-8.5 8.5a.5.5 0 0 1-.168.11l-3 1a.5.5 0 0 1-.632-.632l1-3a.5.5 0 0 1 .11-.168l8.5-8.5ZM11.5 2.5 3.707 10.293l-.5 1.5 1.5-.5L12.5 3.5 11.5 2.5Z"/>
+                      </svg>
+
+                      تعديل
+                    </button>
+
+                    <button
+                      class="action-btn details"
+                      type="button"
+                      title="تفاصيل المنتج"
+                      aria-label="عرض تفاصيل المنتج"
+                      (click)="openProductDetails(prod)">
+
+                      <svg viewBox="0 0 16 16">
+                        <path d="M8 3C4.5 3 1.7 5.1.5 8c1.2 2.9 4 5 7.5 5s6.3-2.1 7.5-5C14.3 5.1 11.5 3 8 3Zm0 8.5A3.5 3.5 0 1 1 8 4.5a3.5 3.5 0 0 1 0 7Zm0-1.5A2 2 0 1 0 8 6a2 2 0 0 0 0 4Z" />
+                      </svg>
+
+                    </button>
+
+                    <button
+                      class="action-btn delete"
+                      type="button"
+                      title="حذف"
+                      (click)="openDeleteModal(prod)">
+
+                      <svg viewBox="0 0 16 16">
+                        <path d="M5.5 5.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm5 0a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5ZM3.5 2A1.5 1.5 0 0 1 5 0.5h6A1.5 1.5 0 0 1 12.5 2H14a.5.5 0 0 1 0 1h-.5v10A1.5 1.5 0 0 1 12 14.5H4A1.5 1.5 0 0 1 2.5 13V3H2a.5.5 0 0 1 0-1h1.5ZM5 1.5a.5.5 0 0 0-.5.5v1h7V2a.5.5 0 0 0-.5-.5H5ZM3.5 3v10a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V3h-9Z"/>
+                      </svg>
+
+                      حذف
+                    </button>
+
+                  </div>
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+        </table>
+
+      </div>
+
+    }
+
+    <nav class="product-pagination" aria-label="التنقل بين صفحات المنتجات">
+      <span class="pagination-range">
+        عرض {{ getStartIndex() }} - {{ getEndIndex() }} من {{ totalMatchingProducts }} منتج
+      </span>
+
+      <label class="pagination-size">
+        منتجات لكل صفحة
+        <select [value]="pageSize" (change)="onPageSizeChange(+$any($event.target).value)">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </label>
+
+      <div class="pagination-controls">
+        <button type="button" [disabled]="currentPage <= 1 || loading" (click)="goToPage(currentPage - 1)">
+          السابق
+        </button>
+        @for (page of pageNumbers; track page) {
+          <button
+            type="button"
+            [class.active]="page === currentPage"
+            [attr.aria-current]="page === currentPage ? 'page' : null"
+            [disabled]="loading"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+        }
+        <button type="button" [disabled]="currentPage >= totalPages || loading" (click)="goToPage(currentPage + 1)">
+          التالي
+        </button>
+      </div>
+    </nav>
+
+  </section>
+
+</div>
+
+<app-confirm-dialog
+  [title]="'تأكيد حذف المنتج'"
+  [visible]="showDeleteModal"
+  [message]="productToDelete ? 'هل أنت متأكد من حذف المنتج: ' + productToDelete.name + '؟' : ''"
+  [errorMessage]="errorMessage"
+  [busy]="saving"
+  (confirmed)="confirmDelete()"
+  (cancelled)="closeDeleteModal()">
+</app-confirm-dialog>
+
+@if (detailsProduct; as product) {
+  <div class="modal-backdrop details-backdrop" (click)="closeProductDetails()">
+    <section
+      class="modal-container details-container"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="product-details-title"
+      (click)="$event.stopPropagation()"
+      dir="rtl">
+
+      <header class="modal-top">
+        <div>
+          <span class="modal-kicker">بيانات الكتالوج</span>
+          <h2 id="product-details-title">تفاصيل المنتج</h2>
+        </div>
+        <button
+          class="modal-close"
+          type="button"
+          aria-label="إغلاق التفاصيل"
+          (click)="closeProductDetails()">
+          <svg viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708Z" />
+          </svg>
+        </button>
+      </header>
+
+      <div class="details-hero">
+        <div class="details-image">
+          @if (product.image) {
+            <img [src]="product.image" [alt]="product.name">
+          } @else {
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M14 3.5A1.5 1.5 0 0 0 12.5 2h-9A1.5 1.5 0 0 0 2 3.5v9A1.5 1.5 0 0 0 3.5 14h9a1.5 1.5 0 0 0 1.5-1.5v-9ZM3.5 3h9a.5.5 0 0 1 .5.5v5.793l-2.146-2.147a.5.5 0 0 0-.708 0L8 9.293 6.854 8.146a.5.5 0 0 0-.708 0L3 11.293V3.5a.5.5 0 0 1 .5-.5Z" />
+            </svg>
+          }
+        </div>
+        <div class="details-product-name">
+          <h3>{{ product.name }}</h3>
+          <span>{{ product.shortDescription || product.originCountry || 'منتج طبي معتمد' }}</span>
+        </div>
+        <span class="details-status" [class.inactive]="product.isActive === false">
+          {{ product.isActive === false ? 'غير نشط' : 'نشط' }}
+        </span>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-item"><span>كود SKU</span><strong>{{ product.sku || 'غير محدد' }}</strong></div>
+        <div class="detail-item"><span>رقم اعتماد SFDA</span><strong>{{ product.medicalCode || 'غير محدد' }}</strong></div>
+        <div class="detail-item"><span>القسم</span><strong>{{ getProductCategoryName(product) }}</strong></div>
+        <div class="detail-item"><span>العلامة التجارية</span><strong>{{ getProductBrandName(product) }}</strong></div>
+        <div class="detail-item"><span>السعر</span><strong>{{ product.price | number }} ر.س</strong></div>
+        <div class="detail-item"><span>السعر قبل الخصم</span><strong>{{ product.oldPrice ? (product.oldPrice | number) + ' ر.س' : 'غير محدد' }}</strong></div>
+        <div class="detail-item"><span>المخزون</span><strong>{{ product.stock }} وحدة</strong></div>
+        <div class="detail-item"><span>حد تنبيه المخزون</span><strong>{{ product.minStockAlert || 5 }} وحدات</strong></div>
+        <div class="detail-item"><span>بلد المنشأ</span><strong>{{ product.originCountry || 'غير محدد' }}</strong></div>
+        <div class="detail-item"><span>الضمان</span><strong>{{ product.warranty || 'غير محدد' }}</strong></div>
+        <div class="detail-item"><span>حالة اعتماد SFDA</span><strong>{{ product.sfdaApproved ? 'معتمد' : 'غير معتمد' }}</strong></div>
+        <div class="detail-item"><span>تاريخ الإضافة</span><strong>{{ product.createdAt ? (product.createdAt | date: 'dd/MM/yyyy') : 'غير محدد' }}</strong></div>
+      </div>
+
+      @if (product.description) {
+        <section class="details-description">
+          <h3>الوصف والمواصفات</h3>
+          <p>{{ product.description }}</p>
+        </section>
+      }
+
+      @if (product.specifications?.length) {
+        <section class="details-specifications">
+          <h3>المواصفات الفنية</h3>
+          <dl>
+            @for (specification of product.specifications; track specification.key) {
+              <div class="detail-item">
+                <dt>{{ specification.key }}</dt>
+                <dd>{{ specification.value }}</dd>
+              </div>
+            }
+          </dl>
+        </section>
+      }
+
+      <footer class="details-footer">
+        <button type="button" class="cancel-btn" (click)="closeProductDetails()">إغلاق</button>
+      </footer>
+    </section>
+  </div>
+}
+
+@if (showProductModal) {
+
+  <div class="modal-backdrop" (click)="closeProductModal()">
+
+    <div
+      class="modal-container"
+      (click)="$event.stopPropagation()"
+      dir="rtl">
+
+      <div class="modal-top">
+        <div>
+          <span class="modal-kicker">
+            {{ editingProduct ? 'تحديث بيانات المنتج' : 'كتالوج المنتجات' }}
+          </span>
+
+          <h2>
+            {{ editingProduct ? 'تعديل بيانات المنتج الطبي' : 'إضافة جهاز / منتج طبي جديد' }}
+          </h2>
+
+          <p>
+            أدخل بيانات المنتج بشكل واضح ودقيق لإضافته إلى الكتالوج.
+          </p>
+        </div>
+
+        <button
+          class="modal-close"
+          type="button"
+          (click)="closeProductModal()">
+
+          <svg viewBox="0 0 16 16">
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708Z"/>
+          </svg>
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <div class="message error">
+          {{ errorMessage }}
+        </div>
+      }
+
+      @if (successMessage) {
+        <div class="message success">
+          {{ successMessage }}
+        </div>
+      }
+
+      <form (ngSubmit)="saveProduct()" class="product-form">
+
+        <div class="form-section">
+          <div class="section-heading">
+            <span>01</span>
+            <div>
+              <strong>المعلومات الأساسية</strong>
+              <small>بيانات تعريف المنتج</small>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group full" [class.has-error]="hasFieldError('name')">
+              <label>اسم الجهاز أو المستلزم الطبي *</label>
+              <input
+                type="text"
+                [(ngModel)]="productForm.name"
+                name="name"
+                required
+                minlength="3"
+                maxlength="200"
+                placeholder="اكتب اسم المنتج">
+              @if (hasFieldError('name')) {
+                <small class="field-error">{{ getFieldError('name') }}</small>
+              }
+            </div>
+
+            <div class="form-group" [class.has-error]="hasFieldError('sku')">
+              <label>كود الصنف الطبي SKU *</label>
+              <input
+                type="text"
+                [(ngModel)]="productForm.sku"
+                name="sku"
+                required
+                placeholder="MED-0000">
+              @if (hasFieldError('sku')) {
+                <small class="field-error">{{ getFieldError('sku') }}</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>رقم ترخيص SFDA</label>
+              <input
+                type="text"
+                [(ngModel)]="productForm.medicalCode"
+                name="medicalCode"
+                placeholder="SFDA-MD-2024-XXX">
+            </div>
+
+            <div class="form-group" [class.has-error]="hasFieldError('category')">
+              <label>القسم الطبي *</label>
+              <select
+                [(ngModel)]="productForm.category"
+                name="category"
+                required>
+                <option value="" disabled selected>اختر القسم</option>
+                @for (c of categories; track c._id) {
+                  <option [value]="c._id">
+                    {{ c.name }}
+                  </option>
+                }
+              </select>
+              @if (hasFieldError('category')) {
+                <small class="field-error">{{ getFieldError('category') }}</small>
+              }
+            </div>
+
+            <div class="form-group" [class.has-error]="hasFieldError('brand')">
+              <label>الشركة المصنعة / العلامة *</label>
+              <select
+                [(ngModel)]="productForm.brand"
+                name="brand"
+                required>
+                <option value="" disabled selected>اختر العلامة</option>
+                @for (b of brands; track b._id) {
+                  <option [value]="b._id">
+                    {{ b.name }} ({{ b.country }})
+                  </option>
+                }
+              </select>
+              @if (hasFieldError('brand')) {
+                <small class="field-error">{{ getFieldError('brand') }}</small>
+              }
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <span>02</span>
+            <div>
+              <strong>التسعير والمخزون</strong>
+              <small>المعلومات المالية والكميات</small>
+            </div>
+          </div>
+
+          <div class="form-grid three">
+
+            <div class="form-group" [class.has-error]="hasFieldError('price')">
+              <label>السعر الحالي (ر.س) *</label>
+              <input
+                type="number"
+                [(ngModel)]="productForm.price"
+                name="price"
+                required
+                min="0.01"
+                max="999999">
+              @if (hasFieldError('price')) {
+                <small class="field-error">{{ getFieldError('price') }}</small>
+              }
+            </div>
+
+            <div class="form-group" [class.has-error]="hasFieldError('oldPrice')">
+              <label>السعر قبل الخصم (ر.س)</label>
+              <input
+                type="number"
+                [(ngModel)]="productForm.oldPrice"
+                name="oldPrice"
+                min="0">
+              @if (hasFieldError('oldPrice')) {
+                <small class="field-error">{{ getFieldError('oldPrice') }}</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>سعر التكلفة (ر.س)</label>
+              <input
+                type="number"
+                [(ngModel)]="productForm.costPrice"
+                name="costPrice"
+                min="0">
+            </div>
+
+            <div class="form-group" [class.has-error]="hasFieldError('stock')">
+              <label>المخزون المتوفر *</label>
+              <input
+                type="number"
+                [(ngModel)]="productForm.stock"
+                name="stock"
+                required
+                min="0"
+                step="1">
+              @if (hasFieldError('stock')) {
+                <small class="field-error">{{ getFieldError('stock') }}</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>تنبيه المخزون المنخفض</label>
+              <input
+                type="number"
+                [(ngModel)]="productForm.minStockAlert"
+                name="minStockAlert"
+                min="1">
+            </div>
+
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <span>03</span>
+            <div>
+              <strong>صورة المنتج</strong>
+              <small>رفع الصورة أو إضافة رابط مباشر</small>
+            </div>
+          </div>
+
+          <div class="upload-box" [class.has-error]="fileError">
+
+            <input
+              type="file"
+              (change)="uploadProductImage($event)"
+              [disabled]="uploadingImage"
+              accept=".jpg,.jpeg,.png,.webp,.gif">
+
+            <div class="upload-icon">
+              <svg viewBox="0 0 16 16">
+                <path d="M8 1a.5.5 0 0 1 .5.5v8.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V1.5A.5.5 0 0 1 8 1ZM2.5 12a.5.5 0 0 1 .5.5V14h10v-1.5a.5.5 0 0 1 1 0v2a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5Z"/>
+              </svg>
+            </div>
+
+            <strong>
+              {{ uploadingImage ? 'جاري رفع الصورة...' : 'ارفع صورة المنتج' }}
+            </strong>
+
+            <small>
+              PNG, JPG, WEBP أو GIF — الحد الأقصى: {{ getMaxFileSizeDisplay() }}
+            </small>
+          </div>
+
+          @if (fileError) {
+            <div class="file-error-message">
+              <svg viewBox="0 0 16 16">
+                <path d="M7.938 2.016a.5.5 0 0 1 .124 0c.15.016.287.1.374.23l5.5 8.5A.5.5 0 0 1 13.5 11.5h-11a.5.5 0 0 1-.436-.754l5.5-8.5a.5.5 0 0 1 .374-.23ZM8 3.18 3.41 10.5h9.18L8 3.18ZM8 5a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 5Zm0 4a.6.6 0 1 0 0 1.2A.6.6 0 0 0 8 9Z"/>
+              </svg>
+              {{ fileError }}
+            </div>
+          }
+
+          <div class="form-group image-url">
+            <label>رابط الصورة المباشر</label>
+            <input
+              type="text"
+              [ngModel]="productForm.image"
+              (ngModelChange)="onImageUrlChange($event)"
+              name="image"
+              placeholder="https://...">
+            @if (hasFieldError('image')) {
+              <small class="field-error">{{ getFieldError('image') }}</small>
+            }
+          </div>
+
+          @if (productForm.image) {
+            <div class="image-preview">
+              <img [src]="productForm.image" alt="معاينة المنتج">
+            </div>
+          }
+
+        </div>
+
+        <div class="form-section">
+          <div class="section-heading">
+            <span>04</span>
+            <div>
+              <strong>الوصف والمواصفات</strong>
+              <small>تفاصيل المنتج السريرية</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>الوصف والمواصفات السريرية</label>
+
+            <textarea
+              [(ngModel)]="productForm.description"
+              name="description"
+              rows="4"
+              placeholder="اكتب وصفًا مختصرًا للمنتج..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="cancel-btn"
+            (click)="closeProductModal()">
+            إلغاء
+          </button>
+
+          <button
+            type="submit"
+            class="save-btn"
+            [disabled]="saving || uploadingImage">
+
+            <svg viewBox="0 0 16 16">
+              <path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.293l3.146-3.147a.5.5 0 0 1 .708 0Z"/>
+            </svg>
+
+            {{
+              saving
+                ? 'جاري الحفظ...'
+                : (editingProduct ? 'حفظ التعديلات' : 'إضافة المنتج إلى الكتالوج')
+            }}
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+}

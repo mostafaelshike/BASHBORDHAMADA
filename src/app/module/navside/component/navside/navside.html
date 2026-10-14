@@ -1,0 +1,222 @@
+
+<aside
+  class="sidebar-container"
+  [class.collapsed]="isCollapsed"
+  dir="rtl">
+
+  <!-- ================= HEADER ================= -->
+
+  <header class="sidebar-header">
+
+    <div
+      class="logo-wrapper"
+      (click)="toggleSidebar()"
+      title="تصغير أو توسيع القائمة">
+
+      <div class="logo-icon">
+       <img src="../../../../../assets/images/Background+Shadow.png" alt="">
+      </div>
+
+      <div class="logo-content">
+        <h3 class="logo-text">سوق طبي</h3>
+        <span class="logo-subtitle">لوحة التحكم</span>
+      </div>
+
+    </div>
+
+    <button
+      type="button"
+      class="collapse-btn"
+      (click)="toggleSidebar()"
+      [attr.aria-label]="isCollapsed ? 'توسيع القائمة' : 'تصغير القائمة'">
+
+      <app-svg-icon [name]="isCollapsed ? 'chevron-left' : 'chevron-right'"></app-svg-icon>
+
+    </button>
+
+  </header>
+
+
+  <!-- ================= NAVIGATION ================= -->
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-section-title">
+      <span>القائمة الرئيسية</span>
+    </div>
+
+    <ul class="nav-list">
+
+      <li
+        *ngFor="let item of navbarData"
+        class="nav-item">
+
+        <!-- روابط عادية -->
+
+        <ng-container *ngIf="!item.children">
+
+          <a
+            [routerLink]="item.path"
+            (click)="closeAfterNavigation()"
+            routerLinkActive="active"
+            #rla="routerLinkActive"
+            class="nav-link"
+            [class.active]="rla.isActive"
+            [attr.data-title]="item.label">
+
+            <span class="icon-wrapper">
+
+              <app-svg-icon [name]="item.icon" class="nav-icon"></app-svg-icon>
+
+            </span>
+
+            <span class="nav-label">
+              {{ item.label }}
+            </span>
+
+          </a>
+
+        </ng-container>
+
+
+        <!-- روابط تحتوي على Dropdown -->
+
+        <ng-container *ngIf="item.children">
+
+          <button
+            type="button"
+            class="nav-link dropdown-link"
+            [class.active]="isParentActive(item)"
+            (click)="handleItemClick(item)"
+            [attr.data-title]="item.label">
+
+            <span class="icon-wrapper">
+
+              <app-svg-icon [name]="item.icon" class="nav-icon"></app-svg-icon>
+
+            </span>
+
+            <span class="nav-label">
+              {{ item.label }}
+            </span>
+
+            <app-svg-icon name="chevron-down" class="arrow-icon" [class.rotated]="item.isOpen"></app-svg-icon>
+
+          </button>
+
+
+          <!-- Submenu -->
+
+          <ul
+            class="submenu-list"
+            *ngIf="item.isOpen && !isCollapsed">
+
+            <li *ngFor="let child of item.children">
+
+              <a
+                [routerLink]="child.path"
+                (click)="closeAfterNavigation()"
+                routerLinkActive="sub-active"
+                class="submenu-link">
+
+                <span class="submenu-dot"></span>
+
+                <span>
+                  {{ child.label }}
+                </span>
+
+              </a>
+
+            </li>
+
+          </ul>
+
+        </ng-container>
+
+      </li>
+
+    </ul>
+
+  </nav>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer class="sidebar-footer">
+
+    <button
+      type="button"
+      class="logout-btn"
+      (click)="openLogoutDialog()"
+      data-title="تسجيل الخروج">
+
+      <span class="icon-wrapper">
+
+        <app-svg-icon name="box-arrow-right" class="nav-icon"></app-svg-icon>
+
+      </span>
+
+      <span class="nav-label">
+        تسجيل الخروج
+      </span>
+
+    </button>
+
+  </footer>
+
+
+ </aside>
+
+  <!-- ================= LOGOUT DIALOG ================= -->
+
+  <div
+    class="confirm-overlay"
+    *ngIf="showLogoutDialog"
+    (click)="closeLogoutDialog()">
+
+    <div
+      class="custom-confirm-dialog"
+      (click)="$event.stopPropagation()">
+
+      <div class="confirm-icon">
+
+        <app-svg-icon name="box-arrow-right"></app-svg-icon>
+
+      </div>
+
+      <div class="confirm-dialog-header">
+        تأكيد تسجيل الخروج
+      </div>
+
+      <div class="confirm-dialog-body">
+
+        هل أنت متأكد من رغبتك في تسجيل الخروج
+        من لوحة التحكم؟
+
+      </div>
+
+      <div class="confirm-dialog-footer">
+
+        <button
+          type="button"
+          class="cancel-btn"
+          (click)="closeLogoutDialog()">
+
+          إلغاء
+
+        </button>
+
+        <button
+          type="button"
+          class="confirm-btn"
+          (click)="confirmLogout()">
+
+          تأكيد
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
